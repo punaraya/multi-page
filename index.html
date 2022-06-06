@@ -264,6 +264,7 @@
             // Check to make sure that this message came from the correct domain.
 
             var url = e.data.url;
+            console.log("Received message from: " + e.origin + " action: " + e.data.action + " url: " + e.data.url);
             if (e.origin !== 'https://amelia.ipsoft.com')
               return;
 
