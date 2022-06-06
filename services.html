@@ -178,14 +178,14 @@
     </div>
     <div style="padding-left:16px">
       <h2>Services</h2>
-      <p>Some content..</p>
+      <p>Some content on Services offered...</p>
     </div>
     <div class="chat-overlay">
         <div class="chat-overlay-wrapper">
             <div class="chat-overlay-header-mobile">
                 <img class="close" src="./amelia-close.png" alt="toggle chat overlay" />
             </div>
-            <iframe id="receiver" src="https://us10.dev.amelia.com/Amelia/ui/bayer/?domainCode=bayer&embed=true" frameborder="0" width="100%" height="100%" allow="geolocation; microphone; camera">
+            <iframe id="receiver" src="https://amelia.ipsoft.com/Amelia/ui/acme/?embed=iframe&domainCode=puru" frameborder="0" width="100%" height="100%" allow="geolocation; microphone; camera">
         <p>Your browser does not support iframes.</p>
       </iframe>
             <div class="chat-overlay-header">
@@ -254,6 +254,36 @@
             // Sorry! No Web Storage support..
             console.log('No localStorage support')
         }
+        
+        function receiveMessage(e, data) {
+            /**
+             * Receive message from child frame and update the DOM
+             * @param {Object} data - data used to update the DOM
+             * @returns - no return
+             */
+            // Check to make sure that this message came from the correct domain.
+
+            var url = e.data.url;
+            console.log("Received message from: " + e.origin + " action: " + e.data.action + " url: " + e.data.url);
+            if (e.origin !== 'https://amelia.ipsoft.com')
+              return;
+
+             if (e.data.action === "home") {
+                window.location.href = "/multi-page/";
+            }
+          }
+
+          function sendMessage(data) {
+            /**
+             * Use data object and postMessage to URL provided (postMessage to child frame)
+             * @param {Object} data - data to be sent to url provided of child frame
+             * @returns - no return
+             */
+
+            var receiverElem = document.getElementById('receiver').contentWindow;
+            receiverElem.postMessage(data, "https://amelia.ipsoft.com/Amelia/ui/acme/?embed=iframe&domainCode=puru");
+          }
+        window.addEventListener('message', receiveMessage);
     </script>
 
 </body>
